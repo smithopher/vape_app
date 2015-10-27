@@ -14,7 +14,7 @@ var UserIndexList = React.createClass({
       );
     });
     return (
-      <div>
+      <div className="container">
         <br/>
         {userNodes}
       </div>
@@ -37,10 +37,10 @@ var UserListing = React.createClass({
 var UserShow = React.createClass({
   render: function() {
     return(
-      <div className="userContainer">
+      <div className="Container">
         <h1 className="userNameHeader">{this.props.first_name} {this.props.last_name}</h1>
         <div>{this.props.user.email}</div>
-        <h4>{this.props.first_name_2} posts </h4>
+        <h4>{this.props.first_name}&apos;s posts </h4>
         <UserPosts data = {this.props.posts}/>
       </div>
     );

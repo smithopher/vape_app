@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   root 'sessions#new'
+  post 'login_attempt', to: 'sessions#create'
+  get '/logout', to: 'sessions#destroy'
   get '/following', to: 'users#index'
   get '/users/:id', to: 'users#show'
 

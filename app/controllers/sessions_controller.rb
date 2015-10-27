@@ -10,6 +10,12 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
       # if @user.type =
     end
+    redirect_to '/following'
+  end
+
+  def destroy
+    session[:user_id] = nil
+    redirect_to '/'
   end
 
 end

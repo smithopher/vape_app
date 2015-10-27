@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151027112305) do
+ActiveRecord::Schema.define(version: 20151027153448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,9 +56,13 @@ ActiveRecord::Schema.define(version: 20151027112305) do
     t.string   "location"
     t.string   "opens_at"
     t.string   "closes_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "user_id"
+    t.boolean  "pending_approval"
   end
+
+  add_index "stores", ["user_id"], name: "index_stores_on_user_id", using: :btree
 
   create_table "upvotes", force: :cascade do |t|
     t.integer  "user_id"
@@ -90,6 +94,7 @@ ActiveRecord::Schema.define(version: 20151027112305) do
   add_foreign_key "favorite_stores", "users"
   add_foreign_key "posts", "stores"
   add_foreign_key "posts", "users"
+  add_foreign_key "stores", "users"
   add_foreign_key "upvotes", "comments"
   add_foreign_key "upvotes", "posts"
   add_foreign_key "upvotes", "users"

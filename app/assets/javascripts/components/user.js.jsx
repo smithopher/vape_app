@@ -34,3 +34,33 @@ var User = React.createClass({
     );
   }
 });
+
+var UserLogin = React.createClass({
+  getInitialState: function() {
+    return {token: ''}
+  },
+  componentDidMount: function(e) {
+    this.setState({token: $('meta[name=csrf-token]').attr('content')})
+  },
+  render: function() {
+    return (
+      <div className = 'container'>
+        <h2>Please Log In</h2>
+        <form role='form' method="post" action="/login_attempt">
+          <input name="authenticity_token" type="hidden" value={this.state.token} />
+            <div className="form-group">
+              <label for="email">Email:</label>
+              <input type="text" name="email" className='form-control'/>
+            </div>
+            <div className='form-group'>
+              <label for="password">Password:</label>
+              <input type="password" name="password" className='form-control'/>
+            </div>
+            <div className='form-group'>
+              <input className="btn btn-default" type="submit" value="Log In" />
+            </div>
+        </form>
+      </div>
+    )
+  }
+})

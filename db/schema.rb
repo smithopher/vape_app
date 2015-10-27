@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151027111635) do
+ActiveRecord::Schema.define(version: 20151027112305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,18 @@ ActiveRecord::Schema.define(version: 20151027111635) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "upvotes", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "post_id"
+    t.integer  "comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "upvotes", ["comment_id"], name: "index_upvotes_on_comment_id", using: :btree
+  add_index "upvotes", ["post_id"], name: "index_upvotes_on_post_id", using: :btree
+  add_index "upvotes", ["user_id"], name: "index_upvotes_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -78,4 +90,7 @@ ActiveRecord::Schema.define(version: 20151027111635) do
   add_foreign_key "favorite_stores", "users"
   add_foreign_key "posts", "stores"
   add_foreign_key "posts", "users"
+  add_foreign_key "upvotes", "comments"
+  add_foreign_key "upvotes", "posts"
+  add_foreign_key "upvotes", "users"
 end

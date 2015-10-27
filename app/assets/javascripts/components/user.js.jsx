@@ -50,8 +50,9 @@ var UserShow = React.createClass({
 var UserPosts = React.createClass({
   render: function() {
     var postNodes = this.props.data.map(function(post) {
+      var postLink = '/posts/'+post.id
       return (
-      <li>{post.title}</li>
+      <li><a href={postLink}>{post.title}</a></li>
       );
     });
     return(

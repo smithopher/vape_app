@@ -1,7 +1,11 @@
 class SessionsController < ApplicationController
 
   def new
-    render component: 'UserLogin'
+    if current_user
+      redirect_to "/following"
+    else
+      render component: 'UserLogin'
+    end
   end
 
   def create

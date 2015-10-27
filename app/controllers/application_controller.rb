@@ -6,4 +6,13 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :current_user
+
+  def authorize
+    unless current_user
+      render component: 'UserLogin'
+    end
+  end
+
+  helper_method :authorize
+
 end

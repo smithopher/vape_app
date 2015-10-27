@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/logout', to: 'sessions#destroy'
   get '/following', to: 'users#index'
   get '/users/:id', to: 'users#show'
+  get '/posts/:id', to: 'posts#show'
 
   # You can have the root of your site routed with "root"
 

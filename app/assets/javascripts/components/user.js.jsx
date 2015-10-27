@@ -10,7 +10,7 @@ var UserIndexList = React.createClass({
   render: function() {
     var userNodes = this.props.data.map(function(user) {
       return (
-        <User data = {user}/>
+        <UserListing data = {user}/>
       );
     });
     return (
@@ -22,15 +22,42 @@ var UserIndexList = React.createClass({
   }
 });
 
-var User = React.createClass({
+var UserListing = React.createClass({
   render: function() {
+    var userLink = "/users/"+this.props.data.id
     return (
       <div>
-        <h4>{this.props.data.first_name} {this.props.data.last_name}</h4>
-        <p>{this.props.data.email}</p>
-        <p><strong>Member since: {this.props.data.created_at.split('T')[0]}</strong></p>
+        <h4><a href={userLink}>{this.props.data.first_name} {this.props.data.last_name}</a></h4>
         <br/>
       </div>
+    );
+  }
+});
+
+var UserShow = React.createClass({
+  render: function() {
+    return(
+      <div className="userContainer">
+        <h1 className="userNameHeader">{this.props.first_name} {this.props.last_name}</h1>
+        <div>{this.props.user.email}</div>
+        <h4>{this.props.first_name_2} posts </h4>
+        <UserPosts data = {this.props.posts}/>
+      </div>
+    );
+  }
+});
+
+var UserPosts = React.createClass({
+  render: function() {
+    var postNodes = this.props.data.map(function(post) {
+      return (
+      <li>{post.title}</li>
+      );
+    });
+    return(
+      <ul>
+        {postNodes}
+      </ul>
     );
   }
 });

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   root 'sessions#new'
   get '/following', to: 'users#index'
+  get '/users/:id', to: 'users#show'
 
   # You can have the root of your site routed with "root"
 

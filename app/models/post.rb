@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  belongs_to :user_id
-  belongs_to :store_id
+  belongs_to :user
+  belongs_to :store
   has_many :upvotes
 end

@@ -28,14 +28,57 @@ var UserLogin = React.createClass({
   }
 });
 
+var UserSignup = React.createClass({
+  getInitialState: function() {
+    return {token: ''};
+  },
+  componentDidMount: function(e) {
+    this.setState({token: $('meta[name=csrf-token]').attr('content')});
+  },
+  render: function () {
+    return(
+      <div className = 'container'>
+        <h2>Fill out form to sign up!</h2>
+        <form role='form' method="post" action="/signup_post">
+          <input name="authenticity_token" type="hidden" value={this.state.token}/>
+            <div className="form-group">
+              <label for="firstName">First Name:</label>
+              <input type="text" name="firstName" className='form-control'/>
+            </div>
+            <div className='form-group'>
+              <label for="lastName">Last Name:</label>
+              <input type="text" name="lastName" className='form-control'/>
+            </div>
+            <div className='form-group'>
+              <label for="email">E-mail Address:</label>
+              <input type="text" name="email" className='form-control'/>
+            </div>
+            <div className='form-group'>
+              <label for="password">Password:</label>
+              <input type="password" id='password1' name="password1" className='form-control'/>
+            </div>
+            <div className='form-group'>
+              <label for="password">Please re-enter password:</label>
+              <input type="password" id='password2' name="password2" className='form-control'/>
+            </div>
+            <div className='form-group'>
+              <input className="btn btn-default" type="submit" value="Sign Up!" />
+            </div>
+        </form>
+      </div>
+    );
+  }
+});
+
 var UserHomeContainer = React.createClass({
   render: function() {
     return (
       <div className='container'>
         <h1>Welcome, {this.props.first_name}</h1>
         <CurrentlyVaping/>
-        <FriendPostList posts={this.props.friend_post}/>
         <FriendsVapingList status={this.props.friend_status}/>
+        <FriendPostList posts={this.props.friend_post}/>
+        <SubmitNewPost/>
       </div>
     )
   }
@@ -103,21 +146,94 @@ var NewStatusForm = React.createClass({
   }
 });
 
+// var NewPostToggle
+var SubmitNewPost = React.createClass({
+  getInitialState: function() {
+    return { post: '',
+             status: '',
+             token: ''
+           };
+  },
+  componentDidMount: function() {
+    this.setState({token: $('meta[name=csrf-token]').attr('content')})
+  },
+  postStatus: function(newPostTitle, newPostContent) {
+    $.ajax({
+      url: '/posts/new',
+      method: 'POST',
+      data: { title: newPostTitle,
+              content: newPostContent,
+              token: this.state.token},
+      success: function (data) {
+        this.setState({ status: 'submitted' });
+      }.bind(this),
+      error: function(xhr, error, status) {
+        console.log('There is an error: '+error);
+      }.bind(this)
+    })
+  },
+  handleNewPost: function(newPostTitle, newPostContent) {
+    this.postStatus(newPostTitle, newPostContent);
+  },
+  render: function() {
+    if (this.state.status == 'submitted') {
+      return (
+        <h5>Your post has been submitted!</h5>
+      )} else {
+        return (
+          <NewPostForm token={this.state.token} onNewPost={this.handleNewPost}/>
+        );
+      }
+    }
+});
+
+var NewPostForm = React.createClass({
+  handleSubmit: function(event) {
+    event.preventDefault();
+    var newPostTitle=React.findDOMNode(this.refs.newPostTitle).value;
+    var newPostContent=React.findDOMNode(this.refs.newPostContent).value;
+    if (!newPostTitle || !newPostContent) {
+      return;
+    }
+    this.props.onNewPost(newPostTitle, newPostContent);
+    React.findDOMNode(this.refs.newPostTitle).value='';
+    React.findDOMNode(this.refs.newPostContent).value='';
+    return;
+  },
+  render: function() {
+    return (
+      <form className='newPost' onSubmit={this.handleSubmit}>
+        <input name="authenticity_token" type="hidden" value={this.props.token}/>
+        <h5>Write a new post!</h5>
+        <input type="text" ref="newPostTitle" placeholder="Title"/><br/>
+        <input type="text" className="contentInput" ref="newPostContent" placeholder="Content"/><br/>
+        <input type="submit" value="Post it!" className='btn btn-primary'/>
+      </form>
+    );
+  }
+});
+
 var FriendPostList = React.createClass({
   render: function() {
     var friendPostNodes;
+    var headline;
     if (this.props.posts.length > 0) {
+      headline=<h5>Recent posts by your friends</h5>;
       friendPostNodes = this.props.posts.map(function(post) {
         return (
           <FriendPost data={post}/>
         );
       });
     } else {
+      headline=<div></div>
       friendPostNodes = <div></div>
     }
     return (
       <div>
-        {friendPostNodes}
+      {headline}
+        <ul>
+          {friendPostNodes}
+        </ul>
       </div>
     );
   }
@@ -128,7 +244,7 @@ var FriendPost = React.createClass({
     var postLink = "/posts/" + this.props.data.id
     var authorLink = "/users/" + this.props.data.user_id
     return(
-      <h5><a href={postLink}>{this.props.data.title}</a> posted by <a href={authorLink}>{this.props.data.author_fname} {this.props.data.author_lname}</a></h5>
+      <li><a href={postLink}>{this.props.data.title}</a> posted by <a href={authorLink}>{this.props.data.author_fname} {this.props.data.author_lname}</a></li>
     );
   }
 });
@@ -136,19 +252,24 @@ var FriendPost = React.createClass({
 var FriendsVapingList = React.createClass({
   render: function() {
     var statusNodes;
+    var headline;
     if (this.props.status.length > 0) {
+      headline=<h5>What your friends are vaping right now</h5>
       statusNodes = this.props.status.map(function(status) {
         return(
           <FriendsVaping data={status}/>
         );
       });
     } else {
+      headline=<div></div>
       statusNodes = <div></div>
     }
     return (
       <div>
-        <h4>What your friends are vaping right now:</h4>
-        {statusNodes}
+        {headline}
+        <ul>
+          {statusNodes}
+        </ul>
       </div>
     );
   }
@@ -158,7 +279,7 @@ var FriendsVaping = React.createClass({
   render: function() {
     var friendLink = "/users/"+this.props.data.user_id
     return (
-      <p><a href={friendLink}>{this.props.data.author_fname} {this.props.data.author_lname}</a> is vaping {this.props.data.title}.</p>
+      <li><a href={friendLink}>{this.props.data.author_fname} {this.props.data.author_lname}</a> is vaping {this.props.data.title}.</li>
     );
   }
 });
@@ -192,7 +313,7 @@ var UserListing = React.createClass({
     var userLink = "/users/"+this.props.data.id
     return (
       <div>
-        <h4><a href={userLink}>{this.props.data.first_name} {this.props.data.last_name}</a></h4>
+        <h5><a href={userLink}>{this.props.data.first_name} {this.props.data.last_name}</a></h5>
         <br/>
       </div>
     );
@@ -205,8 +326,26 @@ var UserShow = React.createClass({
       <div className="Container">
         <h1 className="userNameHeader">{this.props.first_name} {this.props.last_name}</h1>
         <div>{this.props.user.email}</div>
-        <h4>{this.props.first_name}&apos;s posts </h4>
-        <UserPosts data = {this.props.posts}/>
+        <UserStatuses data = {this.props.statuses} firstName = {this.props.first_name}/>
+        <UserPosts data = {this.props.posts} firstName={this.props.first_name}/>
+      </div>
+    );
+  }
+});
+
+var UserStatuses = React.createClass({
+  render: function() {
+    var statusNodes = this.props.data.map(function(status){
+      return (
+        <li>{status.article}</li>
+      );
+    });
+    return (
+      <div>
+        <h5>{this.props.firstName} has recently vaped:</h5>
+        <ul>
+          {statusNodes}
+        </ul>
       </div>
     );
   }
@@ -221,9 +360,12 @@ var UserPosts = React.createClass({
       );
     });
     return(
-      <ul>
-        {postNodes}
-      </ul>
+      <div>
+      <h5>{this.props.firstName}&apos;s posts</h5>
+        <ul>
+          {postNodes}
+        </ul>
+      </div>
     );
   }
 });

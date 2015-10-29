@@ -9,4 +9,8 @@ class PostsController < ApplicationController
     render component: 'PostContainer', props: { post: @post, first_name: @first_name, last_name: @last_name }
   end
 
+  def create
+    post = Post.new(title: params[:title], post_type: 'standard', content: params[:content], user_id: current_user.id).save
+  end
+
 end

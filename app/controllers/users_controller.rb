@@ -4,7 +4,6 @@ class UsersController < ApplicationController
   def home
     @user = User.find(current_user.id)
     @friend_post = Post.where(:user_id => current_user.following).map{|e| {id: e.id, user_id: e.user_id, title: e.title, post_type: e.post_type, author_fname: User.find(e.user_id).first_name.capitalize, author_lname: User.find(e.user_id).last_name.capitalize}}
-    # @friend_post_formatted = @friend_post.map{|e| {title: e.title, post_type: e.post_type, author_fname: User.find(e.user_id).first_name.capitalize, author_lname: User.find(e.user_id).last_name.capitalize}}
     @friend_status = Status.where(:user_id => current_user.following).map{|e| {title: e.article, user_id: e.user_id, author_fname: User.find(e.user_id).first_name.capitalize, author_lname: User.find(e.user_id).last_name.capitalize}}
     @first_name = @user.first_name.capitalize
     render component: 'UserHomeContainer', props: { user: @user, first_name: @first_name, friend_post: @friend_post, friend_status: @friend_status }
@@ -19,6 +18,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @posts = @user.posts
-    render component: 'UserShow', props: { first_name: @user.first_name.capitalize, last_name: @user.last_name.capitalize, user: @user, posts: @posts }
+    @statuses = Status.where(:user_id => @user.id)
+    render component: 'UserShow', props: { first_name: @user.first_name.capitalize, last_name: @user.last_name.capitalize, user: @user, posts: @posts, statuses: @statuses }
   end
+
 end

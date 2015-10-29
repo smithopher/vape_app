@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   get '/posts/:id', to: 'posts#show'
   get '/home', to: 'users#home'
   post '/status/new', to: 'statuses#create'
+  post '/posts/new', to: 'posts#create'
+  get '/signup', to: 'newusers#new'
+  post '/signup_post', to: 'newusers#create'
 
   # You can have the root of your site routed with "root"
 

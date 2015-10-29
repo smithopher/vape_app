@@ -1,0 +1,14 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class='navbar-brand' href='/'>vape app</a>
+    </div>
+    <div class="nav navbar-nav navbar-right">
+      <% if current_user %>
+        <a href='/logout'><button class='btn btn-default'>Sign out</button></a>
+      <% else %>
+        <a href='/signup'><button class='btn btn-default'>Sign up!</button></a>
+      <% end %>
+    </div>
+  </div>
+</nav>

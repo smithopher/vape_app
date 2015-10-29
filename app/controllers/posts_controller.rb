@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :authorize
-  
+
   def show
     @post = Post.find(params[:id])
     @author = User.find(@post.user_id)

@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
 
   def new
     if current_user
-      redirect_to "/following"
+      redirect_to "/home"
     else
       render component: 'UserLogin'
     end
@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
       # if @user.type =
     end
-    redirect_to '/following'
+    redirect_to '/home'
   end
 
   def destroy

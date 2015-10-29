@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get '/following', to: 'users#index'
   get '/users/:id', to: 'users#show'
   get '/posts/:id', to: 'posts#show'
+  get '/home', to: 'users#home'
+  post '/status/new', to: 'statuses#create'
 
   # You can have the root of your site routed with "root"
 

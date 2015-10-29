@@ -14,7 +14,7 @@ var PostContent = React.createClass({
     return (
       <div>
         <h2>{this.props.post.title}</h2>
-        <h4>Posted by: <strong><a href = {authorLink}>{this.props.firstName} {this.props.lastName}</a></strong></h4>
+        <h5>Posted by: <strong><a href = {authorLink}>{this.props.firstName} {this.props.lastName}</a></strong></h5>
         <p>{this.props.post.content}</p>
       </div>
     );

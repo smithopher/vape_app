@@ -10,7 +10,12 @@ class PostsController < ApplicationController
   end
 
   def create
-    post = Post.new(title: params[:title], post_type: 'standard', content: params[:content], user_id: current_user.id).save
+    @post = Post.new(title: params[:title], post_type: 'standard', content: params[:content], user_id: current_user.id)
+    if @post.save
+      render json: {status: 'success'}
+    else
+      render json: {status: 'error'}
+    end
   end
 
 end

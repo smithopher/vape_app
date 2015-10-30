@@ -9,15 +9,15 @@ var UserLogin = React.createClass({
     return (
       <div className = 'container'>
         <h2>Please Sign In</h2>
-        <form role='form' method="post" action="/login_attempt">
+        <form role='form' className='form-horizontal' method="post" action="/login_attempt">
           <input name="authenticity_token" type="hidden" value={this.state.token}/>
             <div className="form-group">
-              <label for="email">Email:</label>
-              <input type="text" name="email" className='form-control'/>
+              <label for="email" className='control-label'>Email:</label>
+              <input type="text" name="email"/>
             </div>
             <div className='form-group'>
-              <label for="password">Password:</label>
-              <input type="password" name="password" className='form-control'/>
+              <label for="password" className='control-label'>Password:</label>
+              <input type="password" name="password"/>
             </div>
             <div className='form-group'>
               <input className="btn btn-default" type="submit" value="Log In" />
@@ -146,7 +146,6 @@ var NewStatusForm = React.createClass({
   }
 });
 
-// var NewPostToggle
 var SubmitNewPost = React.createClass({
   getInitialState: function() {
     return { post: '',
@@ -178,7 +177,7 @@ var SubmitNewPost = React.createClass({
   render: function() {
     if (this.state.status == 'submitted') {
       return (
-        <h5>Your post has been submitted!</h5>
+        <h5>Your status has been posted!</h5>
       )} else {
         return (
           <NewPostForm token={this.state.token} onNewPost={this.handleNewPost}/>
@@ -326,11 +325,65 @@ var UserShow = React.createClass({
       <div className="Container">
         <h1 className="userNameHeader">{this.props.first_name} {this.props.last_name}</h1>
         <div>{this.props.user.email}</div>
+        <FollowUser user={this.props.user} userFollow={this.props.user_follow}/>
         <UserStatuses data = {this.props.statuses} firstName = {this.props.first_name}/>
         <UserPosts data = {this.props.posts} firstName={this.props.first_name}/>
       </div>
     );
   }
+});
+
+var FollowUser = React.createClass({
+  getInitialState: function() {
+    return { followed: this.props.userFollow,
+             token: ''
+           };
+  },
+  componentDidMount: function() {
+    this.setState({token: $('meta[name=csrf-token]').attr('content')})
+  },
+  newFollower: function(newFollow) {
+    $.ajax({
+      url: '/following/new',
+      method: 'POST',
+      data: { follow_id: this.props.user.id,
+              token: this.state.token},
+      success: function (data) {
+        console.log('success', data);
+        this.setState({ followed: true });
+      }.bind(this),
+      error: function(xhr, status, error) {
+        console.log('There is an error: ', error);
+      }.bind(this)
+    })
+  },
+  handleSubmit: function(newFollow) {
+    this.newFollower(newFollow);
+  },
+  render: function() {
+    if (this.state.followed == false) {
+      return (
+        <FollowUserButton clicked={this.state.clicked} token={this.state.token} onFollowClick={this.handleSubmit}/>
+      )} else {
+        return (
+          <p>You follow this user.</p>
+        );
+      }
+    }
+});
+
+var FollowUserButton = React.createClass({
+  handleClick: function(event) {
+    event.preventDefault();
+    var newFollow=React.findDOMNode(this.refs.newFollow);
+    this.props.onFollowClick(newFollow);
+    return;
+  },
+  render: function() {
+      return (
+        <button className='followButton btn btn-primary' ref='newFollow' onClick={this.handleClick}>Follow this user!</button>
+      );
+    }
 });
 
 var UserStatuses = React.createClass({
@@ -366,6 +419,47 @@ var UserPosts = React.createClass({
           {postNodes}
         </ul>
       </div>
+    );
+  }
+});
+
+var UserSearchContainer = React.createClass({
+  render: function() {
+    if (this.props.search_users.length > 0) {
+      return(
+        <div>
+          <h1>Search results:</h1>
+          <SearchResultsList data={this.props.search_users}/>
+        </div>
+      );
+    } else {
+      return (
+        <h1>There are no users that match your criteria</h1>
+      );
+    }
+  }
+});
+
+var SearchResultsList = React.createClass({
+  render: function() {
+    var searchNodes = this.props.data.map(function(user) {
+      return (
+        <SearchResult data={user}/>
+      );
+    });
+    return (
+      <div>
+        {searchNodes}
+      </div>
+    )
+  }
+});
+
+var SearchResult = React.createClass({
+  render: function() {
+    var userLink = '/users/'+this.props.data.id
+    return (
+      <div><a href={userLink}>{this.props.data.first_name} {this.props.data.last_name}</a></div>
     );
   }
 });

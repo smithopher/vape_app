@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post 'login_attempt', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
   get '/following', to: 'users#index'
+  post '/following/new', to: 'users#following'
   get '/users/:id', to: 'users#show'
   get '/posts/:id', to: 'posts#show'
   get '/home', to: 'users#home'
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
   post '/posts/new', to: 'posts#create'
   get '/signup', to: 'newusers#new'
   post '/signup_post', to: 'newusers#create'
+  get '/search', to: 'users#search'
 
   # You can have the root of your site routed with "root"
 

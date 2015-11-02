@@ -15,3 +15,122 @@
  */
 
 @import "bootstrap";
+@import url(https://fonts.googleapis.com/css?family=Rokkitt:400,700);
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+$font1: Rokkitt, serif;
+$font2: Roboto, sans-serif;
+$color1: #C8C1AE;
+$color2: #264653;
+$color3: #5C6D70;
+$color4: #7FB800;
+$color5: #8C1C13;
+
+body {
+  background-color: $color1;
+  color: $color2;
+  font-family: $font2;
+}
+
+#home-vaping {
+  float: right;
+}
+
+#home-posts {
+  float: left;
+}
+
+.form-control {
+  width: 375px;
+  margin: 0;
+  border-radius: 0;
+}
+
+.navbar {
+  background-color: $color2;
+  border-color: $color2;
+  border-radius: 0;
+}
+
+#brand {
+  font-family: $font1;
+  color: $color1;
+  font-size: 48px;
+  font-weight: 700;
+  -webkit-text-fill-color: $color5;
+  -webkit-text-stroke-width: 1.25px;
+  -webkit-text-stroke-color: $color1;
+}
+
+#search-bar {
+  margin-left: 50%;
+}
+
+h1, h2 {
+  text-align: center;
+  font-family: $font1;
+}
+h1 {
+  font-size: 48px;
+}
+.userNameHeader {
+  font-family: $font1;
+  color: $color5;
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.user-profile {
+  margin-left: 10%;
+}
+
+#login-button {
+  margin-right: 30px;
+}
+
+#login-form {
+  text-align: center;
+}
+
+#post-heading {
+  background-color: $color1;
+  border-bottom: 3px solid $color2;
+  border-radius: 0;
+}
+
+.panel.panel-default {
+  border: 3px solid $color2;
+  border-radius: 0;
+}
+
+textarea, #new-post-title {
+  border: 3px solid $color5;
+}
+
+ul {
+  list-style: none;
+}
+
+.btn {
+  background-color: $color5;
+  border-color: $color5;
+  border-radius: 0;
+  color: $color1;
+  font-family: $font1;
+  font-size: 18px;
+}
+
+.list-group-item, .panel.panel-default {
+  color: $color2;
+  a {
+    color: $color5;
+  }
+}
+
+.list-group-item {
+  max-width: 375px;
+}
+
+
+a {
+  color: $color2;
+}

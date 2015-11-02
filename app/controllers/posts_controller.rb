@@ -6,7 +6,8 @@ class PostsController < ApplicationController
     @author = User.find(@post.user_id)
     @first_name = @author.first_name.capitalize
     @last_name = @author.last_name.capitalize
-    render component: 'PostContainer', props: { post: @post, first_name: @first_name, last_name: @last_name }
+    @comments = Comment.where(:post_id => @post.id).map{|e| {content: e.content, post_id: e.post_id, user_id: e.user_id, author_fname: User.find(e.user_id).first_name.capitalize, author_lname: User.find(e.user_id).last_name.capitalize}}
+    render component: 'PostContainer', props: { post: @post, first_name: @first_name, last_name: @last_name, comments: @comments }
   end
 
   def create

@@ -8,21 +8,24 @@ var UserLogin = React.createClass({
   render: function() {
     return (
       <div className = 'container'>
+        <h1>Welcome to VapeStack</h1>
         <h2>Please Sign In</h2>
-        <form role='form' className='form-horizontal' method="post" action="/login_attempt">
-          <input name="authenticity_token" type="hidden" value={this.state.token}/>
-            <div className="form-group">
-              <label for="email" className='control-label'>Email:</label>
-              <input type="text" name="email"/>
-            </div>
-            <div className='form-group'>
-              <label for="password" className='control-label'>Password:</label>
-              <input type="password" name="password"/>
-            </div>
-            <div className='form-group'>
-              <input className="btn btn-default" type="submit" value="Log In" />
-            </div>
-        </form>
+        <div>
+          <form id="login-form" role='form' className='form-horizontal' method="post" action="/login_attempt">
+            <input name="authenticity_token" type="hidden" value={this.state.token}/>
+              <div className="form-group">
+                <label for="email" className='control-label'>User email:</label>
+                <input type="text" name="email"/>
+              </div>
+              <div className='form-group'>
+                <label for="password" className='control-label'>Password:</label>
+                <input type="password" name="password"/>
+              </div>
+              <div className='form-group'>
+                <input className="btn btn-default" type="submit" value="Log In" />
+              </div>
+          </form>
+        </div>
       </div>
     );
   }
@@ -74,11 +77,15 @@ var UserHomeContainer = React.createClass({
   render: function() {
     return (
       <div className='container'>
-        <h1>Welcome, {this.props.first_name}</h1>
-        <CurrentlyVaping/>
-        <FriendsVapingList status={this.props.friend_status}/>
-        <FriendPostList posts={this.props.friend_post}/>
-        <SubmitNewPost/>
+        <h1 id="user-greeting"><strong>Welcome, {this.props.first_name}</strong></h1>
+        <div id="home-vaping">
+          <CurrentlyVaping/>
+          <FriendsVapingList status={this.props.friend_status}/>
+        </div>
+        <div id="home-posts">
+          <FriendPostList posts={this.props.friend_post}/>
+          <SubmitNewPost/>
+        </div>
       </div>
     )
   }
@@ -136,10 +143,10 @@ var NewStatusForm = React.createClass({
   },
   render: function() {
     return (
-      <form className='currentlyVaping' onSubmit={this.handleSubmit}>
+      <form className='currentlyVaping form-inline' onSubmit={this.handleSubmit}>
         <input name="authenticity_token" type="hidden" value={this.props.token}/>
-        <h5>What are you vaping right now?</h5>
-        <input type="text" ref="currentVape" placeholder="We want to know!"/>
+        <h3>What are you vaping right now?</h3>
+        <input type="text" ref="currentVape" className="form-control" placeholder="We want to know!"/>
         <input type="submit" value="Share it!" className='btn btn-primary'/>
       </form>
     );
@@ -204,9 +211,13 @@ var NewPostForm = React.createClass({
       <form className='newPost' onSubmit={this.handleSubmit}>
         <input name="authenticity_token" type="hidden" value={this.props.token}/>
         <h5>Write a new post!</h5>
-        <input type="text" ref="newPostTitle" placeholder="Title"/><br/>
-        <input type="text" className="contentInput" ref="newPostContent" placeholder="Content"/><br/>
-        <input type="submit" value="Post it!" className='btn btn-primary'/>
+        <div>
+          <input className="form-control" id="new-post-title" type="text" ref="newPostTitle" placeholder="Title"/><br/>
+        </div>
+        <div className="form-horizontal">
+          <textarea cols="51"rows="5" type="text" ref="newPostContent" placeholder="Content"/><br/>
+          <input type="submit" value="Post it!" className='btn btn-primary'/>
+        </div>
       </form>
     );
   }
@@ -217,7 +228,7 @@ var FriendPostList = React.createClass({
     var friendPostNodes;
     var headline;
     if (this.props.posts.length > 0) {
-      headline=<h5>Recent posts by your friends</h5>;
+      headline=<h3>Recent posts by your friends</h3>;
       friendPostNodes = this.props.posts.map(function(post) {
         return (
           <FriendPost data={post}/>
@@ -230,9 +241,9 @@ var FriendPostList = React.createClass({
     return (
       <div>
       {headline}
-        <ul>
+        <div className="list-group">
           {friendPostNodes}
-        </ul>
+        </div>
       </div>
     );
   }
@@ -243,7 +254,7 @@ var FriendPost = React.createClass({
     var postLink = "/posts/" + this.props.data.id
     var authorLink = "/users/" + this.props.data.user_id
     return(
-      <li><a href={postLink}>{this.props.data.title}</a> posted by <a href={authorLink}>{this.props.data.author_fname} {this.props.data.author_lname}</a></li>
+      <a href={postLink} className='list-group-item user-posts'>{this.props.data.title} posted by {this.props.data.author_fname} {this.props.data.author_lname}{this.props.data.created_at}</a>
     );
   }
 });
@@ -253,7 +264,7 @@ var FriendsVapingList = React.createClass({
     var statusNodes;
     var headline;
     if (this.props.status.length > 0) {
-      headline=<h5>What your friends are vaping right now</h5>
+      headline=<h3>What your friends have been vaping</h3>
       statusNodes = this.props.status.map(function(status) {
         return(
           <FriendsVaping data={status}/>
@@ -266,7 +277,7 @@ var FriendsVapingList = React.createClass({
     return (
       <div>
         {headline}
-        <ul>
+        <ul className="list-group">
           {statusNodes}
         </ul>
       </div>
@@ -278,7 +289,7 @@ var FriendsVaping = React.createClass({
   render: function() {
     var friendLink = "/users/"+this.props.data.user_id
     return (
-      <li><a href={friendLink}>{this.props.data.author_fname} {this.props.data.author_lname}</a> is vaping {this.props.data.title}.</li>
+      <li className="list-group-item"><a href={friendLink}><strong>{this.props.data.author_fname} {this.props.data.author_lname}</strong></a> has vaped {this.props.data.title} </li>
     );
   }
 });
@@ -322,7 +333,7 @@ var UserListing = React.createClass({
 var UserShow = React.createClass({
   render: function() {
     return(
-      <div className="Container">
+      <div className="Container user-profile">
         <h1 className="userNameHeader">{this.props.first_name} {this.props.last_name}</h1>
         <div>{this.props.user.email}</div>
         <FollowUser user={this.props.user} userFollow={this.props.user_follow}/>
@@ -390,13 +401,13 @@ var UserStatuses = React.createClass({
   render: function() {
     var statusNodes = this.props.data.map(function(status){
       return (
-        <li>{status.article}</li>
+        <li className="list-group-item">{status.article}</li>
       );
     });
     return (
       <div>
         <h5>{this.props.firstName} has recently vaped:</h5>
-        <ul>
+        <ul className="list-group">
           {statusNodes}
         </ul>
       </div>
@@ -409,13 +420,13 @@ var UserPosts = React.createClass({
     var postNodes = this.props.data.map(function(post) {
       var postLink = '/posts/'+post.id
       return (
-      <li><a href={postLink}>{post.title}</a></li>
+      <a href={postLink}><li className="list-group-item">{post.title}</li></a>
       );
     });
     return(
       <div>
       <h5>{this.props.firstName}&apos;s posts</h5>
-        <ul>
+        <ul className="list-group">
           {postNodes}
         </ul>
       </div>

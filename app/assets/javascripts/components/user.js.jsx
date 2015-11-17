@@ -470,7 +470,7 @@ var SearchResultsList = React.createClass({
       );
     });
     return (
-      <div>
+      <div className='list-group col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3'>
         {searchNodes}
       </div>
     )
@@ -481,7 +481,7 @@ var SearchResult = React.createClass({
   render: function() {
     var userLink = '/users/'+this.props.data.id
     return (
-      <div><a href={userLink}>{this.props.data.first_name} {this.props.data.last_name}</a></div>
+      <div><a href={userLink} className="list-group-item">{this.props.data.first_name} {this.props.data.last_name}</a></div>
     );
   }
 });

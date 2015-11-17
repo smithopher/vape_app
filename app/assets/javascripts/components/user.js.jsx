@@ -22,7 +22,7 @@ var UserLogin = React.createClass({
                 <input type="password" name="password"/>
               </div>
               <div className='form-group'>
-                <input className="btn btn-default" type="submit" value="Log In" />
+                <input className="btn btn-default" type="submit" value="Sign In" />
               </div>
           </form>
         </div>

@@ -6,11 +6,11 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-User.create({first_name: 'christopher', last_name: 'smith', email: 'smithopher87@gmail.com', password: 'password', user_type: 'standard', following: ['2', '3', '4']});
-User.create({first_name: 'jaden', last_name: 'carver', email: 'jaden@ga.co', password: 'password',user_type: 'standard', following: ['1', '3', '4']});
-User.create({first_name: 'dennis', last_name: 'liaw', email: 'dennis@ga.co', password: 'password', user_type: 'standard', following: ['2', '1', '4']});
-User.create({first_name: 'edward', last_name: 'petner', email: 'eddiep@gmail.com', password: 'password', user_type: 'standard', following: ['2', '3', '1']});
-User.create({first_name: 'pan', last_name: 'wangperawong', email: 'panw@ga.co', password: 'password', user_type: 'standard', following: ['1', '2', '3']});
+User.create({first_name: 'christopher', last_name: 'smith', email: 'smithopher87@gmail.com', password: 'password', user_type: 'standard'});
+User.create({first_name: 'jaden', last_name: 'carver', email: 'jaden@ga.co', password: 'password',user_type: 'standard'});
+User.create({first_name: 'dennis', last_name: 'liaw', email: 'dennis@ga.co', password: 'password', user_type: 'standard'});
+User.create({first_name: 'edward', last_name: 'petner', email: 'eddiep@gmail.com', password: 'password', user_type: 'standard'});
+User.create({first_name: 'pan', last_name: 'wangperawong', email: 'panw@ga.co', password: 'password', user_type: 'standard'});
 
 Post.create({title: "so what's the deal with vg/pg ratio?", post_type: 'standard', content: "i keep hearing about vg and pg but I don't really know what that means, anybody want to help me out with that?", user_id: '2'});
 Post.create({title: "variable voltage box vs mech mod?", post_type: 'standard', content: "I'm thinking about getting a new mod but I'm not sure which direction I want to go in. I can build coils, so I COULD go with a mech mod, just not sure whether I really want to. anybody have any input?", user_id: '1'});

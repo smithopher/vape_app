@@ -25,24 +25,15 @@ $color3: #5C6D70;
 $color4: #7FB800;
 $color5: #8C1C13;
 
+nav {
+  position: fixed;
+  top: 0;
+}
+
 body {
   background-color: $color1;
   color: $color2;
   font-family: $font2;
-}
-
-#home-vaping {
-  float: right;
-}
-
-#home-posts {
-  float: left;
-}
-
-.form-control {
-  width: 375px;
-  margin: 0;
-  border-radius: 0;
 }
 
 .navbar {
@@ -59,32 +50,31 @@ body {
   -webkit-text-fill-color: $color5;
   -webkit-text-stroke-width: 1.25px;
   -webkit-text-stroke-color: $color1;
+  text-align: center;
 }
 
-#search-bar {
-  margin-left: 50%;
+.followButton {
+  text-align: center;
 }
 
 h1, h2 {
   text-align: center;
   font-family: $font1;
 }
+
 h1 {
   font-size: 48px;
 }
+
+h4 {
+  text-align: center;
+}
+
 .userNameHeader {
   font-family: $font1;
   color: $color5;
   font-size: 48px;
   font-weight: 700;
-}
-
-.user-profile {
-  margin-left: 10%;
-}
-
-#login-button {
-  margin-right: 30px;
 }
 
 #login-form {
@@ -102,8 +92,17 @@ h1 {
   border-radius: 0;
 }
 
-textarea, #new-post-title {
+textarea, #new-post-title, #current-vape-form, .form-control, .list-group-item{
   border: 3px solid $color5;
+  border-radius: 0;
+}
+
+#new-post-content, #newComment {
+  width: 100%;
+}
+
+#searchBar {
+  width: 300px;
 }
 
 ul {
@@ -125,11 +124,6 @@ ul {
     color: $color5;
   }
 }
-
-.list-group-item {
-  max-width: 375px;
-}
-
 
 a {
   color: $color2;

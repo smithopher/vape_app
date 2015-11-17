@@ -115,7 +115,7 @@ var NewCommentForm = React.createClass({
     return (
       <form className='newComment' onSubmit={this.handleSubmit}>
         <input name="authenticity_token" type="hidden" value={this.props.token}/>
-        <textarea cols="60"rows="4" className="contentBox" ref="newComment" placeholder="Write a comment on this post!"/><br/>
+        <textarea rows="4" className="contentBox" id="newComment" ref="newComment" placeholder="Write a comment on this post!"/><br/>
         <input type="submit" value="Post it!" className='btn btn-primary'/>
       </form>
     );

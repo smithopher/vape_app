@@ -7,19 +7,23 @@ var UserLogin = React.createClass({
   },
   render: function() {
     return (
-      <div className = 'container'>
+      <div className = 'container-fluid'>
         <h1>Welcome to VapeStack</h1>
         <h2>Please Sign In</h2>
         <div>
           <form id="login-form" role='form' className='form-horizontal' method="post" action="/login_attempt">
             <input name="authenticity_token" type="hidden" value={this.state.token}/>
               <div className="form-group">
-                <label for="email" className='control-label'>User email:</label>
-                <input type="text" name="email"/>
+                <div className="row-fluid">
+                  <label for="email" className='control-label col-lg-1 col-lg-offset-4 col-md-2 col-md-offset-3 col-sm-2 col-sm-offset-2'>User&nbsp;email:</label>
+                  <input type="text" name="email" className="col-lg-3 col-md-3 col-sm-4"/>
+                </div>
               </div>
               <div className='form-group'>
-                <label for="password" className='control-label'>Password:</label>
-                <input type="password" name="password"/>
+                <div className="row-fluid">
+                  <label for="password" className='control-label col-lg-1 col-lg-offset-4 col-md-2 col-md-offset-3 col-sm-2 col-sm-offset-2'>Password:</label>
+                  <input type="password" name="password" className="col-lg-3 col-md-3 col-sm-4"/>
+                </div>
               </div>
               <div className='form-group'>
                 <input className="btn btn-default" type="submit" value="Sign In" />
@@ -75,9 +79,11 @@ var UserSignup = React.createClass({
 
 var UserHomeContainer = React.createClass({
   render: function() {
+    var currentUserLink = '/users/'+this.props.user.id
     return (
       <div className="container-fluid">
         <h1 id="user-greeting"><strong>Welcome, {this.props.first_name}</strong></h1>
+        <div id="current-profile"><a href={currentUserLink}><h4>Click here to view your profile!</h4></a></div>
         <div className="row-fluid">
           <div className="col-md-5">
             <div id="home-vaping">
